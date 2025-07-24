@@ -1,0 +1,38 @@
+# === Global ===
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
+
+
+# === Node modules (both frontend and backend) ===
+**/node_modules/
+
+# === Build output ===
+**/.next/
+**/dist/
+**/build/
+
+# === Frontend specific (Next.js) ===
+frontend/.next/
+frontend/out/
+frontend/.env.local
+frontend/.env.production
+frontend/.env.development
+
+# === Backend specific (Node.js or Express) ===
+backend/dist/
+backend/.env
+backend/.env.*
+
+# === IDE/editor configs ===
+.vscode/
+.idea/
+*.swp
+
+# === OS/Editor junk ===
+*.sublime-workspace
+*.sublime-project
+*.bak
+*.tmp
