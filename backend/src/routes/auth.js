@@ -7,10 +7,15 @@ const router = express.Router();
 
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { emailOrUsername, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({
+      $or: [
+        { email: emailOrUsername.toLowerCase() },
+        { username: emailOrUsername }
+      ]
+    });
 
     if (!user || !user.password) {
       return res.status(400).json({ message: 'User not found or uses social login' });
@@ -20,7 +25,7 @@ router.post('/login', async (req, res) => {
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '7d',
+      expiresIn: '35d',
     });
 
     res.json({ token, user });

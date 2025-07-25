@@ -23,16 +23,19 @@ export default function DashboardPage() {
 
   useEffect(() => {
     async function fetchUser() {
-      if (session?.user?.id) {
-        const res = await fetch(`/api/user/stats?id=${session.user.id}`)
+      if (session?.user?.email) {
+        const res = await fetch(`/api/user/stats?email=${session.user.email}`)
         if (res.ok) {
           const data = await res.json()
           setUsername(data.username || data.name || data.email || null)
+        } else {
+          console.error('Failed to fetch user data')
         }
       }
     }
+
     fetchUser()
-  }, [session?.user?.id])
+  }, [session?.user?.email])
 
   if (status === 'loading') {
     return <div className="text-center mt-10 text-neon-purple">Loading dashboard...</div>
@@ -59,12 +62,13 @@ export default function DashboardPage() {
           </span>
         </div>
       </div>
+
       {/* Responsive grid for stats, recent scans, and quiz */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 flex flex-col gap-6">
           <DashboardStats />
           <LinkHistory />
-      <AttackHistoryChart />
+          <AttackHistoryChart />
         </div>
         <div>
           <SecurityQuiz />

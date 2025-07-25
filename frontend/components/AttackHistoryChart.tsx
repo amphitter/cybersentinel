@@ -21,15 +21,8 @@ export default function AttackHistoryChart() {
   const { resolvedTheme } = useTheme()
   const { data: session } = useSession()
 
-  const [linkVisits, setLinkVisits] = useState<any[]>([
-    { date: 'Today', visits: 2 },
-    { date: 'This Week', visits: 5 },
-    { date: 'This Month', visits: 12 },
-  ])
-  const [attackTypesData, setAttackTypesData] = useState<any[]>([
-    { type: 'Phishing', count: 3 },
-    { type: 'Malware', count: 2 },
-  ])
+  const [linkVisits, setLinkVisits] = useState<any[]>([])
+  const [attackTypesData, setAttackTypesData] = useState<any[]>([])
 
   const isDark = resolvedTheme === 'dark'
   const tooltipStyle = {
@@ -39,24 +32,38 @@ export default function AttackHistoryChart() {
     color: isDark ? '#fff' : '#000',
   }
 
-  useEffect(() => {
+  // Fetch function
+  const fetchStats = async () => {
     if (!session?.user?.email) return
-    fetch(`/api/user/stats?email=${session.user.email}`)
-      .then(res => res.json())
-      .then(data => {
-        const visitData = [
-          { date: 'Today', visits: data.linkVisits?.today || 0 },
-          { date: 'This Week', visits: data.linkVisits?.thisWeek || 0 },
-          { date: 'This Month', visits: data.linkVisits?.thisMonth || 0 },
-        ]
-        setLinkVisits(visitData)
-        setAttackTypesData(data.attackTypes || [])
-      })
-  }, [session])
+
+    try {
+      const res = await fetch(`/api/user/stats?email=${session.user.email}`)
+      if (!res.ok) throw new Error('Failed to fetch user stats')
+      const data = await res.json()
+
+      const visitData = [
+        { date: 'Today', visits: data.linkVisits?.today || 0 },
+        { date: 'This Week', visits: data.linkVisits?.thisWeek || 0 },
+        { date: 'This Month', visits: data.linkVisits?.thisMonth || 0 },
+      ]
+
+      setLinkVisits(visitData)
+      setAttackTypesData(data.attackTypes || [])
+    } catch (err) {
+      console.error('Error fetching user stats:', err)
+    }
+  }
+
+  // Auto-refreshing every 10s
+  useEffect(() => {
+    fetchStats() // initial fetch
+    const interval = setInterval(fetchStats, 10000) // refresh every 10 seconds
+    return () => clearInterval(interval)
+  }, [session?.user?.email])
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-      {/* Link Visits Line Chart */}
+      {/* Line Chart: Link Visit Trend */}
       <Card className="bg-background text-foreground border border-neon-purple shadow-xl w-full">
         <CardHeader>
           <CardTitle className="text-neon-purple text-lg md:text-xl font-semibold">
@@ -82,7 +89,7 @@ export default function AttackHistoryChart() {
         </CardContent>
       </Card>
 
-      {/* Attack Types Bar Chart */}
+      {/* Bar Chart: Attack Types */}
       <Card className="bg-background text-foreground border border-neon-purple shadow-xl w-full">
         <CardHeader>
           <CardTitle className="text-neon-purple text-lg md:text-xl font-semibold">

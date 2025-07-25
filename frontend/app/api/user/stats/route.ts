@@ -4,37 +4,59 @@ import { authOptions } from '@/lib/authOptions'
 import connectDB from '@/lib/db'
 import User from '@/lib/models/User'
 
-// Optional: Revalidate tag for ISR-style caching if needed
-// export const dynamic = 'force-dynamic'
-
 export async function GET(req: Request) {
   try {
     await connectDB()
 
     const session = await getServerSession(authOptions)
-
-    if (!session || !session.user?.email) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const user = await User.findOne({ email: session.user.email }).select(
-      'linkVisits username name email'
-    )
+    const user = await User.findOne(
+      { email: session.user.email },
+      {
+        username: 1,
+        email: 1,
+        linkVisits: 1,
+        linkHistory: 1,
+        quizHighScore: 1,
+        _id: 0,
+      }
+    ).lean()
 
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 
-    return NextResponse.json({
+    const linkVisits = {
       today: user.linkVisits?.today || 0,
       thisWeek: user.linkVisits?.thisWeek || 0,
       thisMonth: user.linkVisits?.thisMonth || 0,
-      username: user.username,
-      name: user.name,
-      email: user.email,
+    }
+
+    const attackCounts: Record<string, number> = {}
+    user.linkHistory?.forEach((entry: any) => {
+      const type = entry.status
+      if (type) {
+        attackCounts[type] = (attackCounts[type] || 0) + 1
+      }
     })
-  } catch (error: any) {
-    console.error('Error in GET /api/user/stats:', error)
+
+    const attackTypes = Object.entries(attackCounts).map(([type, count]) => ({
+      type,
+      count,
+    }))
+
+    return NextResponse.json({
+      username: user.username || '',
+      email: user.email,
+      linkVisits,
+      attackTypes,
+      quizHighScore: user.quizHighScore || 0,
+    })
+  } catch (error) {
+    console.error('Error fetching stats:', error)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 }
