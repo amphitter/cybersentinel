@@ -22,8 +22,8 @@ export default function Navbar() {
         { name: 'Dashboard', href: '/dashboard' },
         { name: 'AIChat', href: '/chat' },
       ]
-      : [{ name: 'Login', href: '/login' }]),
-      { name: 'Sign Up', href: '/sign-up' },
+      : [{ name: 'Login', href: '/login' },{ name: 'Sign Up', href: '/sign-up' }]),
+
   ]
 
   useEffect(() => {
