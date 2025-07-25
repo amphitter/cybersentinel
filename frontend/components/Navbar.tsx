@@ -17,13 +17,13 @@ export default function Navbar() {
   const links = [
     { name: 'Home', href: '/' },
     { name: 'Know More', href: '/know-more' },
-    { name: 'Sign Up', href: '/sign-up' },
     ...(isLoggedIn
       ? [
-          { name: 'Dashboard', href: '/dashboard' },
-          { name: 'AIChat', href: '/chat' },
-        ]
+        { name: 'Dashboard', href: '/dashboard' },
+        { name: 'AIChat', href: '/chat' },
+      ]
       : [{ name: 'Login', href: '/login' }]),
+      { name: 'Sign Up', href: '/sign-up' },
   ]
 
   useEffect(() => {
