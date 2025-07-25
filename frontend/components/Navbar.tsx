@@ -17,6 +17,7 @@ export default function Navbar() {
   const links = [
     { name: 'Home', href: '/' },
     { name: 'Know More', href: '/know-more' },
+    { name: 'Sign Up', href: '/sign-up' },
     ...(isLoggedIn
       ? [
           { name: 'Dashboard', href: '/dashboard' },
