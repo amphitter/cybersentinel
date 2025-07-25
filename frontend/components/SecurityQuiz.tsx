@@ -98,7 +98,17 @@ export default function SecurityQuiz() {
     )
   }
 
-  const question = quizData[current]
+  const question = quizData?.[current]
+
+if (!question || !Array.isArray(question.options)) {
+  return (
+    <Card className="p-6 h-[526px] flex items-center justify-center">
+      <p className="text-sm text-red-500 text-center">
+        Failed to load quiz. Please try again later.
+      </p>
+    </Card>
+  )
+}
 
   return (
     <Card className="relative h-[526px] backdrop-blur-md bg-background/60 border shadow-xl overflow-hidden transition-colors">
