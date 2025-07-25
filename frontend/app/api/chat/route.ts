@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
-  const backendUrl = 'http://localhost:5000/api/chat';
+const backendUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chat`;
   const contentType = req.headers.get('content-type') || '';
 
   if (contentType.startsWith('multipart/form-data')) {

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const backendUrl = 'http://localhost:5000/api/phishing/scan';
+  const backendUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/phishing/scan`;
 
   const res = await fetch(backendUrl, {
     method: 'POST',
