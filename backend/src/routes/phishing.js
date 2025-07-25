@@ -3,36 +3,61 @@ const express = require('express');
 const { scanUrlWithVirusTotal } = require('../services/virustotal');
 const mongoose = require('mongoose');
 const ScanHistory = require('../models/ScanHistory');
+const User = require('../models/User');
+const verifyToken = require('../middleware/verifyToken'); // You need to create this middleware
 
 const router = express.Router();
 
-// POST /api/phishing/scan
-router.post('/scan', async (req, res) => {
+// POST /api/phishing/scan (with token-based auth)
+router.post('/scan', verifyToken, async (req, res) => {
   const { url } = req.body;
-  if (!url) {
-    return res.status(400).json({ error: 'No URL provided' });
-  }
+  const userId = req.userId;
+
+  if (!url) return res.status(400).json({ error: 'No URL provided' });
+
   try {
     const result = await scanUrlWithVirusTotal(url);
-    // Save scan to MongoDB
-    ScanHistory.create({ type: 'phishing', input: url, result }).catch(() => {});
+
+    // Save scan to ScanHistory collection (optional)
+    await ScanHistory.create({ type: 'phishing', input: url, result });
+
+    // Update user's link history and visit stats
+    const now = new Date();
+
+    await User.findByIdAndUpdate(userId, {
+      $push: {
+        linkHistory: {
+          url,
+          status: getStatus(result),
+          time: now.toISOString(),
+        },
+      },
+      $inc: {
+        'linkVisits.today': 1,
+        'linkVisits.thisWeek': 1,
+        'linkVisits.thisMonth': 1,
+      },
+    });
+
     res.json({ result });
   } catch (err) {
     res.status(500).json({ error: 'Phishing scan failed', details: err.message });
   }
 });
 
-// GET /api/phishing/history
-router.get('/history', async (req, res) => {
+function getStatus(result) {
   try {
-    const scans = await ScanHistory.find({ type: 'phishing' })
-      .sort({ scannedAt: -1 })
-      .limit(10)
-      .lean();
-    res.json(scans);
-  } catch (err) {
-    res.status(500).json({ error: 'Could not fetch scan history' });
+    const parsed = typeof result === 'string' ? JSON.parse(result) : result;
+    const engines = Object.values(parsed || {});
+    const flagged = engines.filter(
+      (e) =>
+        e && e.result &&
+        !['clean', 'harmless', 'undetected', 'unrated', 'safe'].includes((e.result || '').toLowerCase())
+    ).length;
+    return flagged > 0 ? 'Suspicious' : 'Safe';
+  } catch {
+    return 'Unknown';
   }
-});
+}
 
-module.exports = router; 
+module.exports = router;

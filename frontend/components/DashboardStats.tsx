@@ -17,26 +17,47 @@ import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
 export default function DashboardStats() {
-  // const { data: session, status } = useSession()
+  const { data: session, status } = useSession()
+
   const [stats, setStats] = useState([
     { label: 'Today', count: 0, value: 0 },
     { label: 'This Week', count: 0, value: 0 },
     { label: 'This Month', count: 0, value: 0 },
   ])
 
-  // useEffect(() => {
-  //   if (status === 'authenticated') {
-  //     fetch('/api/user/stats')
-  //       .then(res => res.json())
-  //       .then(data => {
-  //         setStats([
-  //           { label: 'Today', count: data.today, value: Math.min(100, data.today * 2) },
-  //           { label: 'This Week', count: data.thisWeek, value: Math.min(100, data.thisWeek) },
-  //           { label: 'This Month', count: data.thisMonth, value: Math.min(100, data.thisMonth / 2) },
-  //         ])
-  //       })
-  //   }
-  // }, [status])
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await fetch('/api/user/stats')
+        if (!res.ok) throw new Error('Failed to fetch stats')
+        const data = await res.json()
+
+        setStats([
+          {
+            label: 'Today',
+            count: data.today,
+            value: Math.min(100, data.today * 2),
+          },
+          {
+            label: 'This Week',
+            count: data.thisWeek,
+            value: Math.min(100, data.thisWeek),
+          },
+          {
+            label: 'This Month',
+            count: data.thisMonth,
+            value: Math.min(100, data.thisMonth / 2),
+          },
+        ])
+      } catch (err) {
+        console.error('Error loading stats:', err)
+      }
+    }
+
+    if (status === 'authenticated') {
+      fetchStats()
+    }
+  }, [status])
 
   return (
     <Card className="bg-background/80 backdrop-blur-md border border-neon-purple shadow-xl text-foreground">
@@ -44,11 +65,11 @@ export default function DashboardStats() {
         <CardTitle className="text-neon-purple text-lg tracking-wide">
           Link Scan Summary
         </CardTitle>
-        {/* {session?.user && (
+        {session?.user && (
           <p className="text-sm text-muted-foreground mt-1">
             Welcome, <span className="text-white">{session.user.name}</span>
           </p>
-        )} */}
+        )}
       </CardHeader>
 
       <CardContent className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
