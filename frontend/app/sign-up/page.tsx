@@ -15,7 +15,6 @@ export default function Signup() {
   const [otp, setOtp] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-
   const [step, setStep] = useState(1)
   const [isSendingOtp, setIsSendingOtp] = useState(false)
   const [otpSent, setOtpSent] = useState(false)

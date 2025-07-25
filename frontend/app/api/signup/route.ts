@@ -10,7 +10,6 @@ export async function POST(req: Request) {
     if (!email) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
-
     await connectDB();
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();

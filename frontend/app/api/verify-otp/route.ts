@@ -19,7 +19,6 @@ export async function POST(req: Request) {
     console.log("Provided OTP:", otp);
     console.log("OTP expires at:", user.otpExpires);
     console.log("Current time:", new Date());
-
     if (
       user.otp !== otp ||
       !user.otpExpires ||

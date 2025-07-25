@@ -17,7 +17,7 @@ const dataLeakRoutes = require('./routes/dataLeak');
 const phishingRoutes = require('./routes/phishing');
 const analyticsRoutes = require('./routes/analytics');
 const extensionRoutes = require('./routes/extension');
-const authRoutes = require('./routes/auth'); // Assuming auth routes exist
+const authRoutes = require('./routes/auth');
 const app = express();
 app.use(cors());
 app.use(express.json());

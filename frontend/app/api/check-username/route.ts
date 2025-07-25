@@ -7,7 +7,6 @@ declare global {
   var mongoose: { conn: mongoose.Connection | null } | undefined;
 }
 export {};
-
 let cached = global.mongoose || (global.mongoose = { conn: null });
 
 async function connectDB() {
