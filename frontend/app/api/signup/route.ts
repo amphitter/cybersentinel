@@ -14,7 +14,6 @@ export async function POST(req: Request) {
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
-
     await User.findOneAndUpdate(
       { email },
       { $set: { otp, otpExpires, verified: false } },

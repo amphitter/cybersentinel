@@ -16,7 +16,6 @@ interface UserStats {
   linkHistory?: { status: string }[]
   quizHighScore?: number
 }
-
 export async function GET(req: Request) {
   try {
     await connectDB()

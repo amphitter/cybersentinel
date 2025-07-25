@@ -20,7 +20,6 @@ export default function Signup() {
   const [otpSent, setOtpSent] = useState(false)
   const [otpVerified, setOtpVerified] = useState(false)
   const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(null)
-
   const prevStep = useRef(1)
   const router = useRouter()
   const { resolvedTheme } = useTheme()
