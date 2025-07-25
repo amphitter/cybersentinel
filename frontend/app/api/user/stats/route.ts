@@ -4,6 +4,19 @@ import { authOptions } from '@/lib/authOptions'
 import connectDB from '@/lib/db'
 import User from '@/lib/models/User'
 
+// Define interface to avoid TS errors
+interface UserStats {
+  username?: string
+  email: string
+  linkVisits?: {
+    today?: number
+    thisWeek?: number
+    thisMonth?: number
+  }
+  linkHistory?: { status: string }[]
+  quizHighScore?: number
+}
+
 export async function GET(req: Request) {
   try {
     await connectDB()
@@ -23,7 +36,7 @@ export async function GET(req: Request) {
         quizHighScore: 1,
         _id: 0,
       }
-    ).lean()
+    ).lean() as UserStats | null // 👈 Fix TypeScript inference
 
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
@@ -36,7 +49,7 @@ export async function GET(req: Request) {
     }
 
     const attackCounts: Record<string, number> = {}
-    user.linkHistory?.forEach((entry: any) => {
+    user.linkHistory?.forEach((entry) => {
       const type = entry.status
       if (type) {
         attackCounts[type] = (attackCounts[type] || 0) + 1
