@@ -1,8 +1,8 @@
-<div style="height:220px; overflow:hidden; display:flex; justify-content:center; align-items:center; padding:0; margin:0;">
+<div style="width:100%; height:220px; overflow:hidden; display:flex; justify-content:center; align-items:center;">
   <img 
     src="https://drive.google.com/uc?export=view&id=1OYUSKFz1ZstoBPcLU6xxBcBBqQPSWBfh" 
     alt="CyberSentinel Logo"
-    style="margin-top:-40px; height:auto; max-height:300px; object-fit:cover;" />
+    style="height:300px; object-fit:cover; object-position:top center;" />
 </div>
 
 
