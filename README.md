@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://drive.google.com/uc?export=view&id=1OYUSKFz1ZstoBPcLU6xxBcBBqQPSWBfh" height="120" alt="CyberSentinel Animated Logo" />
+  <img src="https://drive.google.com/uc?export=view&id=1OYUSKFz1ZstoBPcLU6xxBcBBqQPSWBfh" height="120px" alt="CyberSentinel Animated Logo" />
 </p>
 
 
