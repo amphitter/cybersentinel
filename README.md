@@ -1,7 +1,7 @@
 <p align="center" style="height:200px; overflow:hidden; display:inline-block;">
   <img src="https://drive.google.com/uc?export=view&id=1OYUSKFz1ZstoBPcLU6xxBcBBqQPSWBfh"
        alt="CyberSentinel Logo"
-       style="height:300px; width:full; object-fit:cover; object-position: center;" />
+       style="height:300px; width:900rem; object-fit:cover; object-position: center;" />
 </p>
 <p align="center">
   <b>AI-Powered Cyber Security & Threat Analysis System</b><br/>
