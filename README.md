@@ -1,9 +1,9 @@
-<div style="height:180px; overflow:hidden; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center;">
-  <img src="https://drive.google.com/uc?export=view&id=1OYUSKFz1ZstoBPcLU6xxBcBBqQPSWBfh"
-       alt="CyberSentinel Logo"
-       style="height:260px; margin: 0; padding: 0; display: block; object-fit: cover; object-position: center;" />
+<div style="height:220px; overflow:hidden; display:flex; justify-content:center; align-items:center; padding:0; margin:0;">
+  <img 
+    src="https://drive.google.com/uc?export=view&id=1OYUSKFz1ZstoBPcLU6xxBcBBqQPSWBfh" 
+    alt="CyberSentinel Logo"
+    style="margin-top:-40px; height:auto; max-height:300px; object-fit:cover;" />
 </div>
-
 
 
 
