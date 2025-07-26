@@ -3,14 +3,6 @@
        alt="CyberSentinel Logo"
        style="height:300px; object-fit:cover; object-position: center;" />
 </p>
-
-
-
-
-<h1 align="center">
-  <img src="https://yourdomain.com/animated-title.gif" alt="CyberSentinel Animated Title" />
-</h1>
-
 <p align="center">
   <b>AI-Powered Cyber Security & Threat Analysis System</b><br/>
   <i>CyberSentinel isn’t just a tool — it’s your always-on, AI-powered defense partner.</i>
