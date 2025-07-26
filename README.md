@@ -1,6 +1,9 @@
-<p align="center">
-  <img src="https://drive.google.com/uc?export=view&id=1OYUSKFz1ZstoBPcLU6xxBcBBqQPSWBfh" height="300" alt="CyberSentinel Animated Logo" />
+<p align="center" style="height:200px; overflow:hidden; display:inline-block;">
+  <img src="https://drive.google.com/uc?export=view&id=1OYUSKFz1ZstoBPcLU6xxBcBBqQPSWBfh"
+       alt="CyberSentinel Logo"
+       style="height:300px; object-fit:cover; object-position: center;" />
 </p>
+
 
 
 
