@@ -1,6 +1,7 @@
 <p align="center">
-  <img src="https://yourdomain.com/logo.svg" height="80" alt="CyberSentinel logo"/>
+  <img src="https://drive.google.com/uc?export=view&id=1zgvxac82GMvWAJrZDoQCwQo0Cc2GRnDV" height="100" alt="CyberSentinel Animated Logo" />
 </p>
+
 
 <h1 align="center">
   <img src="https://yourdomain.com/animated-title.gif" alt="CyberSentinel Animated Title" />
